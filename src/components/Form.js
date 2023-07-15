@@ -5,27 +5,15 @@ export default function Form() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [alerta, setAlerta] = useState("");
+  const apiUrl =
+    "https://pdi-combocxhelp.zendesk.com/api/v2/ticket_fields/count";
+  const headers = new Headers();
+  headers.append("Authorization", "Basic " + btoa(username + ":" + password));
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    // Realize aqui a chamada para a API usando fetch ou axios
-    const authHeader = btoa("rodrigo.geraldes@combocx.com.br:Rodrigo=5255"); // Substitua 'username' e 'password' com suas credenciais de autenticação
-
-    // Realize aqui a chamada para a API usando fetch ou axios
     try {
-      const response = await fetch(
-        "https://pdi-combocxhelp.zendesk.com/api/v2/ticket_fields/count",
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Basic " + authHeader,
-          },
-          mode: "no-cors",
-        }
-      );
-
+      const response = await fetch(apiUrl, { headers, mode: "no-cors" });
       const data = await response.json();
 
       // Verifique o retorno da API e exiba o alerta correspondente
@@ -35,6 +23,7 @@ export default function Form() {
         setAlerta(`Erro: ${data.message}`);
       }
     } catch (error) {
+      console.log(username, password, headers, apiUrl);
       setAlerta("Ocorreu um erro ao enviar a mensagem.");
     }
   };

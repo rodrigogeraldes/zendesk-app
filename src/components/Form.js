@@ -8,12 +8,21 @@ export default function Form() {
   const apiUrl =
     "https://pdi-combocxhelp.zendesk.com/api/v2/ticket_fields/count";
   const headers = new Headers();
-  headers.append("Authorization", "Basic " + btoa(username + ":" + password));
+  // headers.append("Authorization", "Basic " + btoa(username + ":" + password));
+  headers.append(
+    "Authorization",
+    "Bearer c1c8cc9b761291d95f55ca907873d4b6bf91ec09731003c1e1db5db42f64e497"
+  );
+  headers.append("Accept", "application/json");
+  headers.append("Access-Control-Allow-Origin", "*");
+  headers.append("Access-Control-Allow-Credentials", "true");
+  headers.append("Access-Control-Allow-Methods", "*");
+  headers.append("Access-Control-Allow-Headers", "Content-Type, Authorization");
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      const response = await fetch(apiUrl, { headers, mode: "no-cors" });
+      const response = await fetch(apiUrl, { headers });
       const data = await response.json();
 
       // Verifique o retorno da API e exiba o alerta correspondente
